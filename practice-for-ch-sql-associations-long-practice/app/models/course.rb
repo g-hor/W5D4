@@ -10,7 +10,8 @@
 #  updated_at    :datetime         not null
 #
 class Course < ApplicationRecord
-    validates :instructor_id, :name, presence: true, uniqueness: { scope: :instructor_id }
+    validates :instructor_id, :name, presence: true
+    validates :name, uniqueness: { scope: :instructor_id }
 
     has_many :enrollments,
         primary_key: :id,
@@ -21,8 +22,15 @@ class Course < ApplicationRecord
         through: :enrollments,
         source: :student
 
-    has_one :prerequisite,
-        primary_key: :prereq_id,
-        foreign_key: :id,
-        class_name: :Course
+    belongs_to :prerequisite,
+        primary_key: :id,
+        foreign_key: :prereq_id,
+        class_name: :Course,
+        optional: true
+
+    belongs_to :instructor,
+        primary_key: :id,
+        foreign_key: :instructor_id,
+        class_name: :User
+    
 end
