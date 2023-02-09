@@ -8,7 +8,7 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
-  validates :name, presence: name
+  validates :name, presence: true
 
   has_many :enrollments,
     primary_key: :id,
@@ -16,6 +16,6 @@ class User < ApplicationRecord
     class_name: :Enrollment
 
   has_many :enrolled_courses,
-    through: :enrollment,
-    source: :student
+    through: :enrollments,
+    source: :course
 end
